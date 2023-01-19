@@ -10,12 +10,29 @@ export class AppComponent {
   @ViewChild('userForm') _userForm: NgForm;
   answer: string = '';
   genders = ['male', 'female'];
+
+  requestPayload = {
+    gender: '',
+    username: '',
+    email: '',
+    questionAnswer: '',
+    secret: '',
+  };
+
   suggestUserName() {
     const suggestedName = 'Superuser';
   }
 
   onSubmit(userForm: NgForm) {
     console.log(this._userForm);
+    const {
+      userData: { email, username },
+      questionAnswer,
+      secret,
+      gender,
+    } = userForm.value;
+    this.requestPayload = { email, username, questionAnswer, secret, gender };
+    console.log('this.requestPayload -->', this.requestPayload);
   }
 
   autoFill() {
@@ -30,6 +47,9 @@ export class AppComponent {
     });
   }
 
+  handleReset(userForm: NgForm){
+    userForm.reset()
+  }
   updateName() {
     this._userForm.form.patchValue({
       userData: { username: 'erikcartman' },
